@@ -2,5 +2,5 @@
 An infrastructure to build custom form quickly with react
 
 
-#install
+# install
 > npm i @form-ui/react
