@@ -1,2 +1,2 @@
 # @form-ui/react
-An infrastructure to build custom form quickly with react
+An infrastructure to build a custom and dynamic forms quickly with react

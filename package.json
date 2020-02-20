@@ -1,0 +1,24 @@
+{
+  "name": "react-form-ui",
+  "version": "1.0.0",
+  "description": "Set of packages to create a custom form quickly with react",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/form-ui/react.git"
+  },
+  "keywords": [
+    "react",
+    "form-ui",
+    "from"
+  ],
+  "author": "Moshe Kabala",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/form-ui/react/issues"
+  },
+  "homepage": "https://github.com/form-ui/react#readme"
+}
