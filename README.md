@@ -1,5 +1,5 @@
 
-# @form-ui/react
+# React-form-ui
 An infrastructure to build a custom and dynamic forms quickly with react
 
 # React-form-ui
