@@ -1,4 +1,5 @@
-import { StringFiledConf } from "./string_conf";
+import { StringFiledConf } from "./conf";
+import { ObjFiledConf } from "./conf/obj_conf";
 
 
 
@@ -31,17 +32,17 @@ export class Types {
       return new ObjFiledConf();
     }
   
-    static get string() {
-      return new StringType();
+    static get number() {
+      return new StringFiledConf();
     }
   
-    static get string() {
-      return new StringType();
-    }
+    // static get integer() {
+    //   return new StringType();
+    // }
   
-    static get string() {
-      return new StringType();
-    }
+    // static get array() {
+    //   return new StringType();
+    // }
   }
   
   
