@@ -1,12 +1,19 @@
 import { ValidationFunc } from "../common";
 import { FiledConf, FiledConfData } from "./single_filed_conf";
 import { FormTypes } from "../types";
-import { RootCtrl, mountableCtrl, ObjCtrl, BaseFormCtrl } from "../controllers";
-import { StringFiledConf } from "./string_conf";
+import {
+  RootCtrl,
+  ContainableCtrl,
+  ObjCtrl,
+  FormCtrl,
+  FiledCtrl,
+  PartialUpdatableCtrl
+} from "../controllers";
+import { FormCtrlArgs } from "../controllers/base_form_ctrl";
 
 type ObjFields = {
-    [key: string]: FiledConf<any, ObjConfData<any>>;
-  }
+  [key: string]: FiledConf<any, any>;
+};
 
 type ObjConfData<T extends object> = FiledConfData<T> & {
   fields: ObjFields;
@@ -17,11 +24,13 @@ export class ObjFiledConf<T extends object = object> extends FiledConf<
   T,
   ObjConfData<T>
 > {
-    // hold the controllers
-    ctrl: {[key: string]: BaseFormCtrl}= {
+  // hold the controllers
+  ctrl: {
+    obj: ObjCtrl<T>;
+    fields: { [key: string]: FormCtrl<any> };
+  } | null = null;
 
-    }
-  data = {
+  data: ObjConfData<T> = {
     type: FormTypes.object,
     title: "",
     fields: {},
@@ -33,24 +42,22 @@ export class ObjFiledConf<T extends object = object> extends FiledConf<
     return this;
   }
 
-  createCtrl({
-    root,
-    parent
-  }: {
-    root: RootCtrl<any>;
-    parent?: mountableCtrl<any>;
-  }) {
-    this.ctrl = {};
-   
-    const obj_ctrl = new ObjCtrl( { root, parent }, null);
+  createCtrl({ root, parent = null }: FormCtrlArgs) {
+    this.ctrl = {
+      obj: new ObjCtrl({ root, parent }, null),
+      fields: {}
+    };
 
     for (const [key, conf] of Object.entries(this.data.fields)) {
-        switch(conf.data.type) {
-            case "string":
-                ctrl[key] = StringFiledConf({root, parent: obj_ctrl} , key)
-            case "number": 
-
-        }
+      switch (conf.data.type) {
+        case "string":
+        case "number":
+          this.ctrl.fields[key] = new FiledCtrl(
+            { root, parent: this.ctrl.obj },
+            key
+          );
+      }
     }
+    return this.ctrl;
   }
 }

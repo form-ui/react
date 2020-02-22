@@ -3,7 +3,7 @@ import { FormTypes } from "../types";
 
 export type format = "ip";
 
-export type StringFiledConfData<T> = FiledConfData<T> & {
+export type StringFiledConfData = FiledConfData<string> & {
   format?: format;
   pattern?: string | RegExp;
 };
@@ -11,7 +11,7 @@ export type StringFiledConfData<T> = FiledConfData<T> & {
 
 export class StringFiledConf extends SingleFiledConf<
   string,
-  StringFiledConfData<string>
+  StringFiledConfData
 > {
 
   constructor() {

@@ -1,5 +1,6 @@
 import React, { useCallback } from "react";
-import { FiledCtrl } from "../types/controllers";
+import { FiledCtrl, FormCtrl } from "../types/controllers";
+import { useCtrl } from "../hooks";
 
 
 const wrapOnChange = (change: (val: any) => void) =>
@@ -11,23 +12,13 @@ const wrapOnChange = (change: (val: any) => void) =>
         change(value);
     }
 
-export function useCtrl(ctrl: any) {
-    const [value, setValue] = React.useState(ctrl.value);
-
-    React.useEffect(() => {
-        ctrl.mount((value: unknown) => setValue(value));
-        return () => {
-            ctrl.unmount();
-        };
-    }, [ctrl]);
-    return value;
-}
 
 
-export function InputCtrl({ ctrl, children }: { children: any, ctrl: FiledCtrl<string | number | boolean> }) {
+
+export function InputCtrl<T extends FormCtrl<any>>({ ctrl, children }: { children: any, ctrl: T }) {
 
     const value = useCtrl(ctrl);
-    const onChange = useCallback(wrapOnChange(ctrl.setValue), [ctrl.setValue]);
+    const onChange = useCallback(wrapOnChange(ctrl.update), [ctrl.setValue]);
 
     return typeof children == "function" ?
         children(ctrl) : React.cloneElement(children, {
