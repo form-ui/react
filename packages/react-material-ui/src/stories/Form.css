@@ -1,0 +1,59 @@
+.title {
+  margin: 8px;
+}
+
+pre {
+  overflow-x: auto;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+
+.half-page {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.page {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+.container {
+  display: flex;
+  padding: 8px;
+  margin: 8px;
+  flex-direction: column;
+  justify-self: stretch;
+  flex: 1;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2), -2px -2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Basic style for the form */
+input[type="text"],
+select {
+  padding: 12px 20px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type="submit"] {
+  width: 100%;
+  background-color: #4caf50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: #45a049;
+}

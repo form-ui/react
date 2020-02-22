@@ -23,12 +23,17 @@ export abstract class BaseFormCtrl<
   relation: FormCtrlArgs | null = null;
 
   updateOnChangeFunc: Function | undefined;
+  update_mounted: Function | undefined;
 
   abstract state: S;
 
   protected emitChange() {
     if (typeof this.updateOnChangeFunc == "function") {
       this.updateOnChangeFunc(this.state.value);
+    }
+
+    if (typeof this.update_mounted == "function") {
+      this.update_mounted(this.state.value);
     }
   }
 
@@ -101,10 +106,12 @@ export abstract class BaseFormCtrl<
   // connect to the parent and root
   public mount(updateOnChangeFunc?: <T>(value: T) => void) {
     this.updateOnChangeFunc = updateOnChangeFunc;
-    const parent = this.parent;
-    if (!parent) return;
+    const mount_to = this.parent || this.root;
+    if (!mount_to) {
+      throw new Error("[mount] Can't mount there is no either parent or root")
+    };
 
-    parent.mount_children(this);
+    mount_to.mount_children(this);
   }
 
   // disconnect

@@ -35,6 +35,11 @@ export class RootCtrl<T> extends BaseFormCtrl<T, RootCtrlState<T>>
     validation: new Set()
   };
 
+    // the function called by emitChange function
+    update_mounted= ()=> {
+      this.form_data_ctrl?.setValue( this.value); 
+    }
+
   setMode = (mode: CtrlModeType) => {
     this.state.mode = mode;
   };

@@ -35,6 +35,14 @@ export class ObjCtrl<T extends Object> extends BaseFormCtrl<T, ObjCtrlState<T>>
     this.update(newVal);
   };
 
+  // the function called by emitChange function
+  update_mounted= ()=> {
+    const value: any = this.value || {};
+    for(const [key, ctrl] of Array.from( this._children)) {
+      ctrl.setValue(value[key]);
+    }
+  }
+
   mount_children(ctrl: FormCtrl) {
     const key = checkKey(ctrl.key);
     this._children.set(key, ctrl);
