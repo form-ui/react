@@ -7,7 +7,6 @@ export function useCtrl(ctrl: FormCtrl<any>) {
 
   React.useEffect(() => {
     ctrl.mount((value: unknown) => {
-      console.log("set value called");
       setValue(value);
     });
     return () => {

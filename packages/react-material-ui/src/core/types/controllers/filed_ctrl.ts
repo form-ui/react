@@ -1,18 +1,13 @@
 import { BaseFormCtrl, BaseCtrlState } from "./base_form_ctrl";
 import { ctrlMode } from "./ctrl_mode";
+import { CtrlTypes } from "../types";
 
 interface FiledCtrlState<T> extends BaseCtrlState<T> {}
 
-export class FiledCtrl<T> extends BaseFormCtrl<FiledCtrlState<T>> {
-  state = {
-    mode: { mode: ctrlMode.checking, type: "filed" } as any,
-    is_err: false,
-    dirty: false,
-    msgs: {},
-    value: undefined
-  };
+export class FiledCtrl<T> extends BaseFormCtrl<T, FiledCtrlState<T>> {
+  type = CtrlTypes.Field;
 
-  //_debounce_on_change = deb;
+
 
   // public update = (value?: unknown) => {
   //   this.update .update(value as any);

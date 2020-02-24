@@ -1,4 +1,2 @@
 // todo
-export class ArrayCtrl {
-
-}
+export class ArrayCtrl<T = unknown> {}

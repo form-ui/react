@@ -2,10 +2,14 @@ import { CtrlModeType } from "./ctrl_mode";
 import { FieldMessages } from "../common";
 import { RootCtrl } from "./root_ctrl";
 import { ContainableCtrl, FormCtrl, PartialUpdatableCtrl } from "./traits";
+import { CtrlTypes } from "../types";
+import { debounce } from "../../utils";
 
-export interface FormCtrlArgs<R = any, P = any>{
-    root: RootCtrl<R> | null;
-    parent: (PartialUpdatableCtrl<P> & ContainableCtrl)| null ;
+const IS_DEVELOPMENT = process.env?.NODE_ENV === "development";
+
+export interface FormCtrlArgs<R = any, P = any> {
+  root: RootCtrl<R> | null;
+  parent: (PartialUpdatableCtrl<P> & ContainableCtrl) | null;
 }
 
 export interface BaseCtrlState<T> {
@@ -17,17 +21,44 @@ export interface BaseCtrlState<T> {
 }
 
 export abstract class BaseFormCtrl<
-  T = unknown,
-  S extends BaseCtrlState<T> = BaseCtrlState<T>
+  T,
+  S extends BaseCtrlState<T>
 > implements FormCtrl<T> {
   relation: FormCtrlArgs | null = null;
+
+  // saving the update count
+  analyses: null | {
+    update_count: number;
+    last_update?: number;
+  } = IS_DEVELOPMENT
+    ? {
+        update_count: 0,
+        last_update: undefined
+      }
+    : null;
 
   updateOnChangeFunc: Function | undefined;
   update_mounted: Function | undefined;
 
   abstract state: S;
+  abstract type: CtrlTypes;
+
+
+  private _debounceUpdate = debounce((value?: T)=> {
+    this._update(value);
+  }, 500, true);
+
+  public debounceUpdate = (value?: T)=> {
+    this.setValue(value);
+    this._debounceUpdate(value);
+  }
+
 
   protected emitChange() {
+    if (IS_DEVELOPMENT && this.analyses) {
+      this.analyses.update_count++;
+      this.analyses.last_update = Date.now();
+    }
     if (typeof this.updateOnChangeFunc == "function") {
       this.updateOnChangeFunc(this.state.value);
     }
@@ -37,15 +68,19 @@ export abstract class BaseFormCtrl<
     }
   }
 
+  private _update(value?: T) {
+    const parent = this.parent;
+    const root = this.root;
+    if (parent) {
+      parent.updatePartial(this.key, value);
+    } else if (root) {
+      root.update(value);
+    }
+  }
+
   public update = (value?: T) => {
     if (this.state.value !== value) {
-      const parent = this.parent;
-      const root = this.root;
-      if (parent) {
-        parent.updatePartial(this.key, value);
-      } else if (root) {
-        root.update(value);
-      }
+     this._update(value)
     }
   };
 
@@ -91,25 +126,25 @@ export abstract class BaseFormCtrl<
     return this.state.value;
   }
 
-  get parent(): ContainableCtrl<any> | null {
-    if(!this.relation) return null;
-    const { parent } = this.relation ;
+  get parent() {
+    if (!this.relation) return null;
+    const { parent } = this.relation;
     return parent;
   }
 
-  get root(): ContainableCtrl<any> | null {
-    if(!this.relation) return null;
+  get root() {
+    if (!this.relation) return null;
     const { root } = this.relation;
     return root;
   }
 
-  // connect to the parent and root
+  // mount to the either parent or root
   public mount(updateOnChangeFunc?: <T>(value: T) => void) {
     this.updateOnChangeFunc = updateOnChangeFunc;
     const mount_to = this.parent || this.root;
     if (!mount_to) {
-      throw new Error("[mount] Can't mount there is no either parent or root")
-    };
+      throw new Error("[mount] Can't mount there is no either parent or root");
+    }
 
     mount_to.mount_children(this);
   }

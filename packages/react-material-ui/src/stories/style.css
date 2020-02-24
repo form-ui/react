@@ -1,8 +1,13 @@
+* {
+  font-family: Arial;
+}
+
 .title {
   margin: 8px;
 }
 
 pre {
+  font-family: monospace;
   overflow-x: auto;
   white-space: pre-wrap;
   white-space: -moz-pre-wrap;
@@ -35,6 +40,7 @@ pre {
 
 /* Basic style for the form */
 input[type="text"],
+input[type="number"],
 select {
   padding: 12px 20px;
   margin: 8px 0;

@@ -21,7 +21,12 @@ export enum FormTypes {
     | "float"
     | "boolean";
   
-
+export enum CtrlTypes {
+  Root = "root",
+  Obj = "obj",
+  Array = "array",
+  Field = "field",
+}
 
 export class Types {
     static get string() {

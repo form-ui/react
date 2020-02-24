@@ -1,6 +1,7 @@
 import { BaseCtrlState, BaseFormCtrl } from "./base_form_ctrl";
 import { ctrlMode, CtrlModeType, ctrlModeString } from "./ctrl_mode";
-import { ContainableCtrl } from "./traits";
+import { ContainableCtrl, FormCtrl } from "./traits";
+import { CtrlTypes } from "../types";
 
 export type rootEvent = "submit";
 
@@ -12,13 +13,14 @@ interface RootCtrlState<T> extends BaseCtrlState<T> {}
 
 export class RootCtrl<T> extends BaseFormCtrl<T, RootCtrlState<T>>
   implements ContainableCtrl<T> {
-  form_data_ctrl: BaseFormCtrl | null = null;
-
-  mount_children(ctrl: BaseFormCtrl): void {
+  form_data_ctrl: FormCtrl | null = null;
+  type = CtrlTypes.Root;
+  
+  mount_children(ctrl: FormCtrl): void {
     this.form_data_ctrl = ctrl;
   }
 
-  unmount_children(ctrl: BaseFormCtrl): void {
+  unmount_children(ctrl: FormCtrl): void {
     this.form_data_ctrl = null;
   }
 
@@ -35,10 +37,10 @@ export class RootCtrl<T> extends BaseFormCtrl<T, RootCtrlState<T>>
     validation: new Set()
   };
 
-    // the function called by emitChange function
-    update_mounted= ()=> {
-      this.form_data_ctrl?.setValue( this.value); 
-    }
+  // the function called by emitChange function
+  update_mounted = () => {
+    this.form_data_ctrl?.setValue(this.value);
+  };
 
   setMode = (mode: CtrlModeType) => {
     this.state.mode = mode;
@@ -52,7 +54,7 @@ export class RootCtrl<T> extends BaseFormCtrl<T, RootCtrlState<T>>
   };
 
   update = (value?: T) => {
-    if(this.value !== value) {
+    if (this.value !== value) {
       this.setValue(value);
     }
   };
