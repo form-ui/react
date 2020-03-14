@@ -20,6 +20,17 @@ export interface BaseCtrlState<T> {
   msgs: FieldMessages;
 }
 
+
+/**
+ * Implement the base functions of every controller
+ * 
+ * @export
+ * @abstract
+ * @class BaseFormCtrl
+ * @implements {FormCtrl<T>}
+ * @template T 
+ * @template S 
+ */
 export abstract class BaseFormCtrl<
   T,
   S extends BaseCtrlState<T>

@@ -2,6 +2,21 @@ import { StringFiledConf } from "./conf";
 import { ObjFiledConf } from "./conf/obj_conf";
 
 
+/**
+ * Run condition After
+ * 
+ * @export
+ * @enum {number}
+ */
+export enum BindTo {
+  Value = "Value" ,
+  Parent = "Parent" ,
+  Root = "Root" 
+}
+
+
+
+export type ConditionFunc<V,P,R,RES> = (value:V, parent?:P, root?:R )=> Promise<RES> | RES;
 
 export enum FormTypes {
     string = "string",

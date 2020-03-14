@@ -7,3 +7,8 @@ An infrastructure to build custom form quickly with react
 
 # The repo still under construction
 
+
+# Story book
+from react-material-ui install the packages and run 
+> npm run storybook
+

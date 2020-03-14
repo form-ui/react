@@ -2,12 +2,9 @@ import { ValidationFunc } from "../common";
 import { FiledConf, FiledConfData } from "./single_filed_conf";
 import { FormTypes } from "../types";
 import {
-  RootCtrl,
-  ContainableCtrl,
   ObjCtrl,
   FormCtrl,
   FiledCtrl,
-  PartialUpdatableCtrl
 } from "../controllers";
 import { FormCtrlArgs } from "../controllers/base_form_ctrl";
 

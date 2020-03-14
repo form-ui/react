@@ -17,7 +17,9 @@ export default {
 
 
 const formConfig = Types.obj.fields({
-  name: Types.string,
+  name: Types
+  .string
+  .length({ min: 2, max: 30 }),
   age: Types.number
 })
 
